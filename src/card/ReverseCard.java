@@ -7,7 +7,7 @@ import queue.PlayersQueue;
 
 import java.util.Queue;
 
-import static utility.Utility.reverseQueue;
+import static queue.PlayersQueue.reverseQueue;
 
 public class ReverseCard extends ActionCard {
   public ReverseCard(Color color) {

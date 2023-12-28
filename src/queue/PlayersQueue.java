@@ -5,6 +5,7 @@ import exceptions.InvalidInputException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class PlayersQueue {
   private static PlayersQueue queueInstance;
@@ -49,5 +50,15 @@ public class PlayersQueue {
   public void nextPlayer(){
     Player currentPlayer = queue.remove();
     queue.add(currentPlayer);
+  }
+
+  public static <T> void reverseQueue(Queue<T> queue){
+    Stack<T> stack = new Stack<>();
+    while (!queue.isEmpty()) {
+      stack.push(queue.remove());
+    }
+    while (!stack.isEmpty()) {
+      queue.add(stack.pop());
+    }
   }
 }
