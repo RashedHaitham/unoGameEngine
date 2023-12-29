@@ -24,9 +24,9 @@ public class DefaultRound extends GameRound {
     super(queue, o);
     deckNotifier = new DeckNotifier(Deck.getInstance());
   }
-  
+
   @Override
-  protected void initializeRound(){
+  public void initializeRound(){
     int numOfPlayers = playerQueue.size();
     int numOfCardsPerPlayer = options.getNumOfCardsPerPlayer();
     if (numOfPlayers * numOfCardsPerPlayer > drawPile.getDrawPileSize() - 10){
@@ -40,7 +40,7 @@ public class DefaultRound extends GameRound {
   }
   
   @Override
-  protected void playCard(Player player, int cardNumber){
+  public void playCard(Player player, int cardNumber){
     Card card = player.getCardList().get(cardNumber);
     deckNotifier.cardRemoved(card);
     player.playCard(cardNumber);
@@ -54,7 +54,7 @@ public class DefaultRound extends GameRound {
   }
   
   @Override
-  protected int chooseCard(Player player){
+  public int chooseCard(Player player){
     int cardNumber = 0;
     boolean validMove = false;
     while(!validMove) {
@@ -75,7 +75,7 @@ public class DefaultRound extends GameRound {
     return cardNumber;
   }
   
-  private int handleCardNumberInput(Player player){
+  public int handleCardNumberInput(Player player){
     System.out.println("Choose a card, " + player.getName());
     if (options.hasToSayUno()) {
       String sayUno = sayUno(player);
@@ -88,7 +88,7 @@ public class DefaultRound extends GameRound {
     return chooseCardNumber();
   }
   
-  private String sayUno(Player player){
+  public String sayUno(Player player){
     Scanner input = new Scanner(System.in);
     String uno = input.next();
     if (player.getCardList().size() == 2 && !uno.equalsIgnoreCase("Uno")){
@@ -98,18 +98,18 @@ public class DefaultRound extends GameRound {
     return uno;
   }
   
-  private int chooseCardNumber() {
+  public int chooseCardNumber() {
     Scanner scanner = new Scanner(System.in);
     return scanner.nextInt();
   }
   
-  private void validateCardNumber(Player player, int cardNumber) throws InvalidInputException {
+  public void validateCardNumber(Player player, int cardNumber) throws InvalidInputException {
     if (cardNumber <= 0 || cardNumber > player.getCardList().size()) {
       throw new InvalidInputException("You chose an invalid card number.");
     }
   }
   
-  private void validatePlayableCard(Player player, int cardNumber) throws IllegalMoveException {
+  public void validatePlayableCard(Player player, int cardNumber) throws IllegalMoveException {
     Card chosenCard = player.getCardList().get(cardNumber);
     if (!canBePlayed(chosenCard)) {
       throw new IllegalMoveException("You can't play this card.");
@@ -117,19 +117,19 @@ public class DefaultRound extends GameRound {
   }
   
   @Override
-  protected void displayRoundWinner() {
+  public void displayRoundWinner() {
     System.out.println("Congrats " + roundWinner.getName() + "!!! You won this round 🎉");
   }
   
   @Override
-  protected void displayScores(){
+  public void displayScores(){
     for (Player player : playerQueue) {
       System.out.println(player.getName() + "'s score: " + player.getScore());
     }
   }
   
   @Override
-  protected void endRound(){
+  public void endRound(){
     for(Player player : playerQueue){
       for(Card card:player.getCardList())
         deckNotifier.cardAdded(card);

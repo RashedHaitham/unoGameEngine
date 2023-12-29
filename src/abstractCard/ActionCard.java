@@ -15,7 +15,7 @@ public abstract class ActionCard implements Card{
   }
   
   @Override
-  public boolean isValidCard(Card topCard) {
+  public boolean canBePlayed(Card topCard) {
     if(topCard instanceof NumberedCard card2){
       return (getColor() == card2.getColor());
     }
@@ -23,7 +23,7 @@ public abstract class ActionCard implements Card{
       return (getColor() == card2.getColor() || getCardName().equals(card2.getCardName()));
     }
     if(topCard instanceof WildCard card2){
-      return getColor() == card2.getChosenColor();
+      return getColor() == card2.getColor();
     }
     throw new IllegalCardException("Invalid card type: " + topCard);
   }

@@ -64,8 +64,6 @@ public class CustomGame extends Game {
   
   @Override
   protected void displayWinner(){
-    System.out.println("🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉");
-    System.out.println(gameWinner.getName() + " won with a score of " + gameWinner.getScore() + "!!!!!");
-    System.out.println("🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉");
+    System.out.println(gameWinner.getName() + " is the winner");
   }
 }

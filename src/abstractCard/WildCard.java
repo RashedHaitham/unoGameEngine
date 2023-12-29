@@ -8,11 +8,11 @@ import java.util.Scanner;
 import static utility.Display.printColorCards;
 
 public abstract class WildCard implements Card{
-  private Color chosenColor;
+  private Color color;
   public abstract String getCardName();
 
   @Override
-  public boolean isValidCard(Card topCard) {
+  public boolean canBePlayed(Card topCard) {
     return true;
   }
   
@@ -32,7 +32,7 @@ public abstract class WildCard implements Card{
         if (chosenColor <= 0 || chosenColor > Color.values().length) {
           throw new InvalidInputException("You chose an invalid card number.");
         }
-        this.chosenColor = Color.values()[chosenColor - 1];
+        this.color = Color.values()[chosenColor - 1];
         validInput = true;
       } catch (InvalidInputException e) {
         System.out.println(e.getMessage() + " Choose a valid color: ");
@@ -42,8 +42,8 @@ public abstract class WildCard implements Card{
     }
   }
   
-  public Color getChosenColor(){
-    return chosenColor;
+  public Color getColor(){
+    return color;
   }
   
   @Override

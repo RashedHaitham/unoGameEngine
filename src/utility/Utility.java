@@ -16,10 +16,6 @@ public class Utility {
   public static final int cardWidth = 11;
   public static final int spaceBetweenCards = 2;
 
-  private Utility(){
-    throw new AssertionError("This class should not be instantiated.");
-  }
-  
   public static String space(int n) {
     StringBuilder s = new StringBuilder();
     while (n-- > 0) {

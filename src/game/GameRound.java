@@ -7,7 +7,6 @@ import queue.Player;
 import queue.PlayersQueue;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import static utility.Display.printPlayerCards;
 import static utility.Display.printTopDiscardedCard;
@@ -57,7 +56,7 @@ public abstract class GameRound {
   
   private boolean isRoundOver(){
     for (Player player : playerQueue){
-      if(player.getCardList().size() == 0){
+      if(player.getCardList().isEmpty()){
         roundWinner = player;
         return true;
       }
@@ -74,10 +73,11 @@ public abstract class GameRound {
     }
     return false;
   }
-  
+
   protected boolean canBePlayed(Card playerCard){
     Card topCard = discardPile.getTopCard();
-    return playerCard.isValidCard(topCard);
+
+    return playerCard.canBePlayed(topCard);
   }
   
   private void calculateScore(){

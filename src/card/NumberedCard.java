@@ -28,12 +28,12 @@ public class NumberedCard implements Card {
   }
   
   @Override
-  public boolean isValidCard(Card topCard) {
+  public boolean canBePlayed(Card topCard) {
     if(topCard instanceof ActionCard card2){
       return getColor() == card2.getColor();
     }
     if(topCard instanceof WildCard card2){
-      return getColor() == card2.getChosenColor();
+      return getColor() == card2.getColor();
     }
     if(topCard instanceof NumberedCard card2){
       return (getNumber() == card2.getNumber() || getColor() == card2.getColor());

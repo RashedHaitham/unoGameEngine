@@ -4,20 +4,21 @@ import abstractCard.ActionCard;
 import abstractCard.Card;
 import abstractCard.WildCard;
 import card.NumberedCard;
-import exceptions.IllegalMoveException;
-import exceptions.InvalidInputException;
+
 import game.GameRound;
 import game.Options;
 import queue.Player;
 import queue.PlayersQueue;
 
-import java.util.InputMismatchException;
+import defaultGame.DefaultRound;
+
 import java.util.Queue;
-import java.util.Scanner;
 
 public class CustomRound extends GameRound {
+  DefaultRound def;
   public CustomRound(Queue<Player> queue, Options o) {
     super(queue, o);
+    def=new DefaultRound(queue,o);
   }
   
   @Override
@@ -50,45 +51,9 @@ public class CustomRound extends GameRound {
   
   @Override
   protected int chooseCard(Player player){
-    int cardNumber = 0;
-    boolean validMove = false;
-    while(!validMove) {
-      try {
-        cardNumber = handleCardNumberInput(player);
-        validateCardNumber(player, cardNumber);
-        cardNumber--;
-        validatePlayableCard(player, cardNumber);
-        validMove = true;
-      } catch (InvalidInputException e) {
-        System.out.println(e.getMessage() + " Choose a valid card number:");
-      } catch (InputMismatchException e){
-        System.out.println("You need to enter a number. Enter a valid number:");
-      } catch (IllegalMoveException e){
-        System.out.println(e.getMessage() + " Choose a valid card:");
-      }
-    }
-    return cardNumber;
+    return def.chooseCard(player);
   }
-  
-  private int handleCardNumberInput(Player player){
-    System.out.println("Choose a card, " + player.getName());
-    Scanner scanner = new Scanner(System.in);
-    return scanner.nextInt();
-  }
-  
-  private void validateCardNumber(Player player, int cardNumber) throws InvalidInputException {
-    if (cardNumber <= 0 || cardNumber > player.getCardList().size()) {
-      throw new InvalidInputException("You chose an invalid card number.");
-    }
-  }
-  
-  private void validatePlayableCard(Player player, int cardNumber) throws IllegalMoveException {
-    Card chosenCard = player.getCardList().get(cardNumber);
-    if (!canBePlayed(chosenCard)) {
-      throw new IllegalMoveException("You can't play this card.");
-    }
-  }
-  
+
   @Override
   protected void displayRoundWinner() {
     System.out.println(roundWinner.getName() + " won this round 🎉🎉🎉🎉🎉");

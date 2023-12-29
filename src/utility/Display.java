@@ -1,9 +1,6 @@
 package utility;
 
-import abstractCard.ActionCard;
-import abstractCard.Card;
-import abstractCard.Color;
-import abstractCard.WildCard;
+import abstractCard.*;
 import card.NumberedCard;
 import queue.Player;
 
@@ -13,41 +10,39 @@ import java.util.List;
 import static utility.Utility.*;
 
 public class Display {
-  private Display(){
-    throw new AssertionError("This class should not be instantiated.");
-  }
-  
+
   public static void printTopDiscardedCard(Card card){
     System.out.println("Discard Pile");
     List<Card> cardList = new ArrayList<>();
     cardList.add(card);
-    String discardPile = drawEmptyParts(cardList) + drawNamePart(cardList) + drawEmptyParts(cardList);
+    String discardPile = spaceParts(cardList) + namePart(cardList) + spaceParts(cardList);
     System.out.println(discardPile);
   }
   public static void printPlayerCards(Player player){
     System.out.println(player.getName()+"'s turn");
     List<Card> cardList = player.getCardList();
-    String playerCards = drawEmptyParts(cardList) + drawNamePart(cardList) + drawEmptyParts(cardList) + drawNumbers(cardList);
+    String playerCards = spaceParts(cardList) + namePart(cardList) + spaceParts(cardList) + drawNumbers(cardList);
     System.out.println(playerCards);
   }
   
-  public static void printColorCards(){
+  public static void printColorCards(){ //when wild card is chosen
     List<Card> cardList = new ArrayList<>();
-    for(Color color: Color.values()){
-      NumberedCard card = new NumberedCard(0,color);
+    iterator<Color> iter=Color.getIterator();
+    while(iter.hasNext()){
+      NumberedCard card = new NumberedCard(0,iter.next());
       cardList.add(card);
     }
-    String colorCards = drawEmptyParts(cardList) + drawEmptyParts(cardList) + drawNumbers(cardList);
+    String colorCards = spaceParts(cardList) + spaceParts(cardList) + drawNumbers(cardList);
     System.out.println(colorCards);
   }
   
-  private static String drawEmptyParts(List<Card> cardList){
+  private static String spaceParts(List<Card> cardList){
     StringBuilder c = new StringBuilder();
-    for(int i=0;i<2;i++){
+    for(int i=0;i<2;i++){ // height of card
       for (Card card : cardList) {
         String color = "";
         if(card instanceof WildCard wildCard){
-          color = wildCard.getChosenColor() == null ? WHITE : getColor(wildCard.getChosenColor());
+          color = wildCard.getColor() == null ? WHITE : getColor(wildCard.getColor());
         }
         if(card instanceof ActionCard actionCard){
           color = getColor(actionCard.getColor());
@@ -63,13 +58,13 @@ public class Display {
     return c.toString();
   }
   
-  private static String drawNamePart(List<Card> cardList) {
+  private static String namePart(List<Card> cardList) {
     StringBuilder c = new StringBuilder();
     for (Card card : cardList) {
       String name = card.getCardName();
       String color = "";
       if(card instanceof WildCard wildCard){
-        color = wildCard.getChosenColor() == null ? WHITE : getColor(wildCard.getChosenColor());
+        color = wildCard.getColor() == null ? WHITE : getColor(wildCard.getColor());
       }
       if(card instanceof ActionCard actionCard){
         color = getColor(actionCard.getColor());
